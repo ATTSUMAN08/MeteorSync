@@ -5,6 +5,7 @@ import com.google.gson.JsonElement
 import com.mojang.serialization.JsonOps
 import me.attsuman08.meteorsync.models.PlayerData
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.TagParser
 import net.minecraft.world.entity.player.Player
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.common.Mod
@@ -121,9 +122,7 @@ object MeteorSync {
                 }
                 playerData.curiosData.forEach { (slot, itemData) ->
                     println("${slot}: $itemData")
-                    val compound = CompoundTag.CODEC.parse(JsonOps.INSTANCE, itemData).resultOrPartial {
-                        throw IllegalStateException("ItemDataのデコードに失敗しました")
-                    }.orElseThrow()
+                    val compound = TagParser.parseTag(itemData.toString())
                     curiosInventory.curios[slot]?.deserializeNBT(compound)
                 }
                 LOGGER.info("${p.gameProfile.name}のデータを読み込みました")
