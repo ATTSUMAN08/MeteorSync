@@ -121,7 +121,6 @@ object MeteorSync {
                     IllegalStateException("${p.gameProfile.name}のデータが見つかりませんでした")
                 }
                 playerData.curiosData.forEach { (slot, itemData) ->
-                    println("${slot}: $itemData")
                     val compound = TagParser.parseTag(itemData.toString())
                     curiosInventory.curios[slot]?.deserializeNBT(compound)
                 }
